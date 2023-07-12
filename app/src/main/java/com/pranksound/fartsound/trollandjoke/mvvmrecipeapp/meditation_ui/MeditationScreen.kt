@@ -1,7 +1,11 @@
 package com.pranksound.fartsound.trollandjoke.mvvmrecipeapp.meditation_ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -10,19 +14,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
+var height: Dp = 0.dp
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MeditationScreen() {
     val navHostController = rememberNavController()
-    Scaffold(bottomBar = { BottomBar(navController = navHostController)}) {
-        BottomNavGraph(navigation = navHostController)
+    Scaffold(bottomBar = {
+        BottomBar(navController = navHostController)
+    }) {
+        Box(modifier = Modifier.padding(bottom = 80.dp)) {
+            BottomNavGraph(navigation = navHostController)
+        }
     }
 }
 
@@ -35,7 +49,7 @@ fun BottomBar(navController: NavController) {
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    BottomAppBar {
+    BottomAppBar(modifier = Modifier.height(80.dp)) {
         screens.forEach {
             AddItem(it, currentDestination, navController)
         }
@@ -45,7 +59,7 @@ fun BottomBar(navController: NavController) {
 @Composable
 fun RowScope.AddItem(
     screen: MenuBottomBarScreen,
-    currentDestination: NavDestination?,
+    currentDestination: NavDestination?,//NavDestination đại diện cho một nút trong biểu đồ điều hướng tổng thể.
     navController: NavController
 ) {
     NavigationBarItem(
